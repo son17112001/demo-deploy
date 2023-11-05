@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Sử dụng Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -34,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Triển khai với gh-pages (nhánh develop)
-        if: github.ref == 'refs/heads/develop'
+      - name: Deploy with gh-pages
+        if: github.ref == 'refs/heads/dev'
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           npm run deploy -- -u "github-actions-bot <support+actions@github.com>" --dir=develop # Truyền một cờ để triển khai vào một thư mục khác
