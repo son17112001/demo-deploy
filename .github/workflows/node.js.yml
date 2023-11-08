@@ -15,11 +15,6 @@ jobs:
         node-version: [16.x]
 
     steps:
-      - name: Create directories
-        run: |
-          mkdir -p dev
-          mkdir -p prod
-
       - uses: actions/checkout@v3
       - name: Build and deploy to dev
         if: github.ref == 'refs/heads/dev'
@@ -28,6 +23,7 @@ jobs:
           # Ví dụ: npm install, npm run build
 
           # Di chuyển đến thư mục muốn triển khai (dev)
+          mkdir -p dev
           cd ./dev
 
           # Khởi tạo và cấu hình GitHub Pages trong thư mục dev
@@ -47,6 +43,7 @@ jobs:
           # Ví dụ: npm install, npm run build
 
           # Di chuyển đến thư mục muốn triển khai (prod)
+          mkdir -p prod
           cd ./prod
 
           # Khởi tạo và cấu hình GitHub Pages trong thư mục prod
