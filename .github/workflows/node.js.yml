@@ -16,28 +16,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Sử dụng Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - run: npm ci
-      - run: npm run build --if-present
-
-      - name: Triển khai với gh-pages (nhánh main)
+      - run: |
+          npm ci
+          npm run build --if-present
+      - name: Deploy Page
         if: github.ref == 'refs/heads/main'
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Triển khai với gh-pages (nhánh develop)
-        if: github.ref == 'refs/heads/develop'
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npm run deploy -- -u "github-actions-bot <support+actions@github.com>" --dir=develop # Truyền một cờ để triển khai vào một thư mục khác
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./prod    # Thư mục chứa nội dung cần triển khai
+          destination_dir: .     # Thư mục đích trên GitHub Pages
+          publish_branch: gh-pages
+          keep_files: true
+      - name: Deploy Page
+        if: github.ref == 'refs/heads/dev'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dev    # Thư mục chứa nội dung cần triển khai
+          destination_dir: dev     # Thư mục đích trên GitHub Pages
+          publish_branch: gh-pages
+          keep_files: true
