@@ -44,6 +44,7 @@ jobs:
 
           # Di chuyển đến thư mục muốn triển khai (prod)
           mkdir -p prod
+          cp -R ./source/* ./prod
           cd ./prod
 
           # Khởi tạo và cấu hình GitHub Pages trong thư mục prod
