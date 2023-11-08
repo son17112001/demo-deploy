@@ -15,6 +15,11 @@ jobs:
         node-version: [16.x]
 
     steps:
+      - name: Create directories
+        run: |
+          mkdir -p dev
+          mkdir -p prod
+
       - uses: actions/checkout@v3
       - name: Build and deploy to dev
         if: github.ref == 'refs/heads/dev'
