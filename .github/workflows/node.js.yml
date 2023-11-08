@@ -29,3 +29,12 @@ jobs:
           destination_dir: .     # Thư mục đích trên GitHub Pages
           publish_branch: gh-pages
           keep_files: true
+      - name: Deploy Page
+        if: github.ref == 'refs/heads/dev'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dev    # Thư mục chứa nội dung cần triển khai
+          destination_dir: dev     # Thư mục đích trên GitHub Pages
+          publish_branch: gh-pages
+          keep_files: true
